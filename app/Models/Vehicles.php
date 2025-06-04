@@ -12,7 +12,11 @@ class Vehicles extends Model
         'name',
         'plate_number',
         'year',
-        'status'
+        'status',
+        'seats',
+        'luggage',
+        'insurance',
+        'price'
     ];
 
     public function transaction(){

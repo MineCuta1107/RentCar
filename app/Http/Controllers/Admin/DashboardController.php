@@ -7,6 +7,7 @@ use App\Models\Transaction;
 use App\Models\Vehicles;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -32,6 +33,13 @@ class DashboardController extends Controller
             ->groupBy('month')
             ->get();
 
+        // Hitung total revenue dari transaksi completed
+        $totalRevenue = Transaction::where('status', 'completed')
+            ->join('vehicles', 'transactions.vehicle_id', '=', 'vehicles.id')
+            ->selectRaw('SUM(DATEDIFF(transactions.return_date, transactions.borrow_date) * vehicles.price) as revenue')
+            ->value('revenue');
+        $totalRevenue = $totalRevenue ?? 0;
+
         return view('admin.dashboard', compact(
             'totalVehicles',
             'availableVehicles',
@@ -41,7 +49,8 @@ class DashboardController extends Controller
             'ongoingTransactions',
             'totalUsers',
             'recentTransactions',
-            'monthlyStats'
+            'monthlyStats',
+            'totalRevenue'
         ));
     }
 } 

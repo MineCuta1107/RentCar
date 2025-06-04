@@ -130,6 +130,7 @@
             border-radius: 8px;
             padding: 1.5rem;
             margin-bottom: 1.5rem;
+            /* max-width: 420px; */
         }
         .info-section h5 {
             color: var(--text);
@@ -139,16 +140,19 @@
         }
         .info-item {
             display: flex;
+            align-items: center;
+            gap: 32px;
             margin-bottom: 0.8rem;
         }
         .info-label {
-            width: 120px;
+            min-width: 120px;
             color: var(--text-light);
             font-weight: 500;
         }
         .info-value {
             color: var(--text);
             font-weight: 500;
+            text-align: left;
         }
         .badge {
             padding: 0.5rem 1rem;
@@ -217,7 +221,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 w-100">
                         <div class="info-section">
                             <h5><i class="fas fa-user me-2"></i>Informasi Anggota</h5>
                             <div class="info-item">
@@ -229,16 +233,12 @@
                                 <span class="info-value">{{ $transaction->user->nik }}</span>
                             </div>
                             <div class="info-item">
-                                <span class="info-label">Jabatan</span>
-                                <span class="info-value">{{ $transaction->user->position }}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">No. Telp</span>
-                                <span class="info-value">{{ $transaction->user->phone }}</span>
+                                <span class="info-label">Email</span>
+                                <span class="info-value">{{ $transaction->user->email }}</span>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 w-100">
                         <div class="info-section">
                             <h5><i class="fas fa-car me-2"></i>Informasi Kendaraan</h5>
                             <div class="info-item">
@@ -257,6 +257,28 @@
                                 <span class="info-label">Tahun</span>
                                 <span class="info-value">{{ $transaction->vehicle->year }}</span>
                             </div>
+                            <div class="info-item">
+                                <span class="info-label">Kursi</span>
+                                <span class="info-value">{{ $transaction->vehicle->seats }}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Koper</span>
+                                <span class="info-value">{{ $transaction->vehicle->luggage }}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Harga per Hari</span>
+                                <span class="info-value">Rp {{ number_format($transaction->vehicle->price, 0, ',', '.') }}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Asuransi</span>
+                                <span class="info-value">
+                                    @if($transaction->vehicle->insurance)
+                                        <span class="text-success"><i class="fas fa-check"></i> Ya</span>
+                                    @else
+                                        <span class="text-danger"><i class="fas fa-times"></i> Tidak</span>
+                                    @endif
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -270,6 +292,20 @@
                     <div class="info-item">
                         <span class="info-label">Tanggal Kembali</span>
                         <span class="info-value">{{ $transaction->return_date }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Harga</span>
+                        <span class="info-value">
+                            @php
+                                $days = \Carbon\Carbon::parse($transaction->borrow_date)->diffInDays(\Carbon\Carbon::parse($transaction->return_date));
+                                $total = $transaction->vehicle->price * $days;
+                            @endphp
+                            Rp {{ number_format($total, 0, ',', '.') }}
+                        </span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Waktu Pinjam</span>
+                        <span class="info-value">{{ $days }} hari</span>
                     </div>
                     <div class="info-item">
                         <span class="info-label">Status</span>

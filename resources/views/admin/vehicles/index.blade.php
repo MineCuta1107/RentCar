@@ -419,76 +419,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="createVehicleModalBody">
-                    <form action="{{ route('admin.vehicles.store') }}" method="POST">
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="vehicle_code" class="form-label">Kode Kendaraan</label>
-                                <input type="text" class="form-control @error('vehicle_code') is-invalid @enderror" 
-                                    id="vehicle_code" name="vehicle_code" value="{{ old('vehicle_code') }}" required>
-                                @error('vehicle_code')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="brand" class="form-label">Merek Kendaraan</label>
-                                <input type="text" class="form-control @error('brand') is-invalid @enderror" 
-                                    id="brand" name="brand" value="{{ old('brand') }}" required>
-                                @error('brand')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="name" class="form-label">Nama Kendaraan</label>
-                                <input type="text" class="form-control @error('name') is-invalid @enderror" 
-                                    id="name" name="name" value="{{ old('name') }}" required>
-                                @error('name')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="plate_number" class="form-label">Nomor Plat</label>
-                                <input type="text" class="form-control @error('plate_number') is-invalid @enderror" 
-                                    id="plate_number" name="plate_number" value="{{ old('plate_number') }}" required>
-                                @error('plate_number')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="year" class="form-label">Tahun</label>
-                                <input type="number" class="form-control @error('year') is-invalid @enderror" 
-                                    id="year" name="year" value="{{ old('year') }}" required>
-                                @error('year')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="status" class="form-label">Status</label>
-                                <select class="form-select @error('status') is-invalid @enderror" id="status" name="status" required>
-                                    <option value="available" {{ old('status') == 'available' ? 'selected' : '' }}>Tersedia</option>
-                                    <option value="borrowed" {{ old('status') == 'borrowed' ? 'selected' : '' }}>Dipinjam</option>
-                                    <option value="maintenance" {{ old('status') == 'maintenance' ? 'selected' : '' }}>Perawatan</option>
-                                </select>
-                                @error('status')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-end gap-2 mt-4">
-                            <button type="button" class="btn-action btn-secondary" data-bs-dismiss="modal">
-                                <i class="fas fa-times"></i>
-                                Batal
-                            </button>
-                            <button type="submit" class="btn-action btn-primary">
-                                <i class="fas fa-save"></i>
-                                Simpan
-                            </button>
-                        </div>
-                    </form>
+                    @include('admin.vehicles._form', ['action' => route('admin.vehicles.store'), 'method' => 'POST'])
                 </div>
             </div>
         </div>
@@ -534,6 +465,31 @@
                 modalEl.addEventListener('hidden.bs.modal', function () {
                     window.location.reload();
                 });
+            });
+
+            const yearInput = document.getElementById('year');
+            const usiaPreview = document.getElementById('usiaKendaraanPreview');
+            function updateUsia() {
+                const year = parseInt(yearInput.value);
+                const now = new Date().getFullYear();
+                if (year && year <= now) {
+                    usiaPreview.textContent = `Usia Kendaraan: ${now - year} tahun`;
+                } else {
+                    usiaPreview.textContent = 'Usia Kendaraan: - tahun';
+                }
+            }
+            yearInput.addEventListener('input', updateUsia);
+            updateUsia();
+
+            // Insurance icon toggle
+            const insuranceInput = document.getElementById('insurance');
+            const insuranceIcon = document.getElementById('insuranceIcon');
+            insuranceInput.addEventListener('change', function() {
+                if (this.checked) {
+                    insuranceIcon.innerHTML = '<i class="fas fa-check text-success"></i>';
+                } else {
+                    insuranceIcon.innerHTML = '<i class="fas fa-times text-danger"></i>';
+                }
             });
         });
     </script>

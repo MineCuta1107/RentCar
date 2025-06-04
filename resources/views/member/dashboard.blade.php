@@ -8,19 +8,19 @@
 
 @section('content')
 <div class="min-h-screen bg-gray-100">
-    <div class="py-6">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="py-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Welcome Section with Stats -->
             <div class="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl shadow-xl overflow-hidden mb-8">
                 <div class="p-8">
                     <div class="flex items-center justify-between">
                         <div>
                             <h2 class="text-3xl font-bold text-white mb-2">
-                                Selamat Datang, {{ auth()->user()->name }}
-                            </h2>
+                    Selamat Datang, {{ auth()->user()->name }}
+                </h2>
                             <p class="text-blue-100">
-                                NIK: {{ auth()->user()->nik }} | Jabatan: {{ auth()->user()->position }}
-                            </p>
+                    NIK: {{ auth()->user()->nik }}
+                </p>
                         </div>
                         <div class="hidden md:block">
                             <svg class="h-24 w-24 text-blue-200 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -59,13 +59,13 @@
                             <p class="text-2xl font-bold text-gray-900">{{ $totalCompleted }}</p>
                         </div>
                     </div>
-                </div>
             </div>
+        </div>
 
-            <!-- Quick Actions -->
+        <!-- Quick Actions -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition duration-500 hover:scale-105">
-                    <div class="p-6">
+                <div class="p-6">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-xl font-bold text-gray-800">Peminjaman Kendaraan</h3>
                             <div class="p-2 bg-blue-100 rounded-lg">
@@ -74,18 +74,18 @@
                                 </svg>
                             </div>
                         </div>
-                        <p class="text-gray-600 mb-4">Pinjam kendaraan yang tersedia untuk keperluan dinas.</p>
+                    <p class="text-gray-600 mb-4">Pinjam kendaraan yang tersedia untuk keperluan dinas.</p>
                         <a href="{{ route('member.borrow.index') }}" class="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition duration-300">
                             <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                             </svg>
-                            Pinjam Kendaraan
-                        </a>
-                    </div>
+                        Pinjam Kendaraan
+                    </a>
                 </div>
+            </div>
 
                 <div class="bg-white rounded-xl shadow-md overflow-hidden transform transition duration-500 hover:scale-105">
-                    <div class="p-6">
+                <div class="p-6">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-xl font-bold text-gray-800">Pengembalian Kendaraan</h3>
                             <div class="p-2 bg-green-100 rounded-lg">
@@ -94,74 +94,74 @@
                                 </svg>
                             </div>
                         </div>
-                        <p class="text-gray-600 mb-4">Kembalikan kendaraan yang telah selesai digunakan.</p>
+                    <p class="text-gray-600 mb-4">Kembalikan kendaraan yang telah selesai digunakan.</p>
                         <a href="{{ route('member.return.index') }}" class="inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition duration-300">
                             <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                             </svg>
-                            Kembalikan Kendaraan
-                        </a>
-                    </div>
+                        Kembalikan Kendaraan
+                    </a>
                 </div>
             </div>
+        </div>
 
-            <!-- Active Borrowings -->
+        <!-- Active Borrowings -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden">
-                <div class="p-6">
+            <div class="p-6">
                     <div class="flex items-center justify-between mb-6">
                         <h3 class="text-xl font-bold text-gray-800">Peminjaman Aktif</h3>
                         <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm font-medium">
                             {{ $activeTransactions->count() }} Aktif
                         </span>
                     </div>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
                             <thead>
                                 <tr class="bg-gray-50">
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        ID Transaksi
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Kendaraan
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Tanggal Pinjam
-                                    </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    ID Transaksi
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Kendaraan
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Tanggal Pinjam
+                                </th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Tanggal Pengembalian
                                     </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Status
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                @forelse($activeTransactions as $borrowing)
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Status
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            @forelse($activeTransactions as $borrowing)
                                 <tr class="hover:bg-gray-50 transition duration-150">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                        #{{ $borrowing->id }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        {{ $borrowing->vehicle->name }}
+                                    #{{ $borrowing->id }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    {{ $borrowing->vehicle->name }}
                                         <span class="text-gray-500">({{ $borrowing->vehicle->plate_number }})</span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                         {{ Carbon::parse($borrowing->borrow_date)->format('d M Y H:i') }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                         {{ $borrowing->return_date ? Carbon::parse($borrowing->return_date)->format('d M Y H:i') : '-' }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
                                         <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full 
                                             {{ $borrowing->status === 'ongoing' ? 'bg-yellow-100 text-yellow-800' : 
                                                ($borrowing->status === 'completed' ? 'bg-green-100 text-green-800' : 
                                                'bg-blue-100 text-blue-800') }}">
                                             {{ ucfirst($borrowing->status) }}
-                                        </span>
-                                    </td>
-                                </tr>
-                                @empty
-                                <tr>
+                                    </span>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
                                     <td colspan="5" class="px-6 py-8 text-center text-sm text-gray-500">
                                         <div class="flex flex-col items-center">
                                             <svg class="h-12 w-12 text-gray-400 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -169,11 +169,11 @@
                                             </svg>
                                             <p>Tidak ada peminjaman aktif saat ini</p>
                                         </div>
-                                    </td>
-                                </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                                </td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                     </div>
                 </div>
             </div>

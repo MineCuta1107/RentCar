@@ -22,6 +22,7 @@ Route::middleware(['auth', 'UserAkses:admin'])->prefix('admin')->name('admin.')-
     Route::resource('vehicles', VehicleController::class);
     Route::resource('transactions', TransactionController::class);
     Route::resource('users', UserController::class);
+    Route::get('/vehicles/{vehicle}/edit', [VehicleController::class, 'edit'])->name('admin.vehicles.edit');
 });
 
 // Member Routes (tanpa prefix 'member')
@@ -29,6 +30,10 @@ Route::middleware(['auth', 'UserAkses:member'])->name('member.')->group(function
     Route::get('/dashboard', [Dashboardcontroller::class, 'index'])->name('dashboard');
     Route::resource('borrow', BorrowController::class);
     Route::resource('return', ReturnController::class);
+    Route::get('/api/member/vehicles', [\App\Http\Controllers\BorrowController::class, 'apiAvailableVehicles'])->name('api.member.vehicles');
+    Route::get('/terms', function() { return view('member.terms'); })->name('terms');
+    Route::get('/privacy', function() { return view('member.privacy'); })->name('privacy');
+    Route::get('/sutan', function() { return view('member.sutan'); })->name('sutan');
 });
 
 

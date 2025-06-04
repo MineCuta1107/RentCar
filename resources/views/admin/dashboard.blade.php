@@ -361,6 +361,18 @@
             </div>
         </div>
 
+        <!-- Total Revenue Chart Section -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Pendapatan</h5>
+                        <div id="revenue-chart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- ApexCharts Script -->
         <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.46.0/dist/apexcharts.min.js"></script>
         <script>
@@ -455,6 +467,38 @@
 
             const vehicleChart = new ApexCharts(document.querySelector("#vehicle-chart"), vehicleOptions);
             vehicleChart.render();
+
+            // Revenue Chart
+            const revenueOptions = {
+                series: [{
+                    name: 'Pendapatan',
+                    data: [{{ $totalRevenue }}]
+                }],
+                chart: {
+                    type: 'bar',
+                    height: 350
+                },
+                plotOptions: {
+                    bar: {
+                        borderRadius: 4,
+                        horizontal: false,
+                        columnWidth: '40%'
+                    }
+                },
+                dataLabels: {
+                    enabled: true,
+                    formatter: function (val) {
+                        return 'Rp ' + val.toLocaleString('id-ID');
+                    }
+                },
+                xaxis: {
+                    categories: ['Total Pendapatan'],
+                },
+                colors: ['#4f46e5']
+            };
+
+            const revenueChart = new ApexCharts(document.querySelector("#revenue-chart"), revenueOptions);
+            revenueChart.render();
         </script>
 
         <style>

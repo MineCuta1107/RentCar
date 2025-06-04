@@ -48,25 +48,30 @@ class BorrowController extends Controller
     {
         $validated = $request->validate([
             'vehicle_id' => 'required|exists:vehicles,id',
+            'days' => 'required|integer|min:1|max:30',
         ]);
 
         if (auth()->user()->role === 'member') {
             $hasActive = Transaction::where('user_id', auth()->id())
                 ->whereIn('status', ['ongoing', 'pending'])
                 ->exists();
-            if ($hasActive) {
-                return back()->with('error', 'Anda hanya boleh meminjam 1 kendaraan dalam satu waktu.');
-            }
+            // if ($hasActive) {
+            //     return back()->with('error', 'Anda hanya boleh meminjam 1 kendaraan dalam satu waktu.');
+            // }
             $vehicle = Vehicles::findOrFail($validated['vehicle_id']);
             if ($vehicle->status !== 'available') {
                 return back()->with('error', 'Kendaraan sudah tidak tersedia');
             }
 
+            $days = (int) $validated['days'];
+            $borrowDate = now();
+            $returnDate = now()->addDays($days);
+
             Transaction::create([
                 'user_id' => auth()->id(),
                 'vehicle_id' => $validated['vehicle_id'],
-                'borrow_date' => now(),
-                'return_date' => now()->addDay(),
+                'borrow_date' => $borrowDate,
+                'return_date' => $returnDate,
                 'status' => 'ongoing',
             ]);
 
@@ -133,5 +138,11 @@ class BorrowController extends Controller
 
         return redirect()->route('admin.transactions.index')
             ->with('success', 'Transaksi berhasil dihapus');
+    }
+
+    public function apiAvailableVehicles()
+    {
+        $vehicles = \App\Models\Vehicles::where('status', 'available')->get();
+        return response()->json($vehicles);
     }
 }

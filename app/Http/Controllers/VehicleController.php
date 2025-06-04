@@ -28,36 +28,40 @@ class VehicleController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    $validated = $request->validate([
-        'vehicle_code' => 'required|unique:vehicles',
-        'brand' => 'required',
-        'name' => 'required',
-        'plate_number' => 'required|unique:vehicles,plate_number',
-        'year' => 'required|numeric',
-        'status' => 'required|in:available,borrowed,maintenance'
-    ]);
+    {
+        $validated = $request->validate([
+            'vehicle_code' => 'required|unique:vehicles',
+            'brand' => 'required',
+            'name' => 'required',
+            'plate_number' => 'required|unique:vehicles,plate_number',
+            'year' => 'required|digits:4|integer|min:1900|max:2099',
+            'status' => 'required|in:available,borrowed,maintenance',
+            'seats' => 'required|integer|min:1|max:99',
+            'luggage' => 'required|integer|min:0|max:99',
+            'insurance' => 'nullable|boolean',
+            'price' => 'required|numeric|min:0'
+        ]);
 
-  
-    Vehicles::create($validated);
+        $validated['insurance'] = $request->has('insurance') ? 1 : 0;
 
-    return redirect()->route('admin.vehicles.index')->with('success', 'Kendaraan berhasil ditambahkan');
-}
+        Vehicles::create($validated);
 
+        return redirect()->route('admin.vehicles.index')->with('success', 'Kendaraan berhasil ditambahkan');
+    }
 
-  
     public function show(string $id)
     {
         //
     }
 
-   
     public function edit(Vehicles $vehicle)
     {
+        if (!$vehicle) {
+            return redirect()->route('admin.vehicles.index')->with('error', 'Kendaraan tidak ditemukan');
+        }
         return view('admin.vehicles.edit', compact('vehicle'));
     }
 
-    
     public function update(Request $request, Vehicles $vehicle)
     {
         $validated = $request->validate([
@@ -65,9 +69,15 @@ class VehicleController extends Controller
             'brand' => 'required',
             'name' => 'required',
             'plate_number' => 'required|unique:vehicles,plate_number,' . $vehicle->id,
-            'year' => 'required|numeric',
-            'status' => 'required|in:available,borrowed,maintenance'
+            'year' => 'required|digits:4|integer|min:1900|max:2099',
+            'status' => 'required|in:available,borrowed,maintenance',
+            'seats' => 'required|integer|min:1|max:99',
+            'luggage' => 'required|integer|min:0|max:99',
+            'insurance' => 'nullable|boolean',
+            'price' => 'required|numeric|min:0'
         ]);
+
+        $validated['insurance'] = $request->has('insurance') ? 1 : 0;
 
         $vehicle->update($validated);
         return redirect()->route('admin.vehicles.index')->with('success', 'Kendaraan berhasil diupdate');

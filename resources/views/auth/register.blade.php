@@ -358,13 +358,8 @@
                     </div>
 
                     <div class="input-group">
-                        <select name="position" class="form-select" required>
-                            <option value="" selected disabled>Pilih Jabatan</option>
-                            <option value="Guru">Guru</option>
-                            <option value="TPA">TPA</option>
-                            <option value="Kepala Urusan">Kepala Urusan</option>
-                        </select>
-                        <i class="fas fa-briefcase"></i>
+                        <input type="email" name="email" class="form-control" placeholder="Email" required>
+                        <i class="fas fa-envelope"></i>
                     </div>
 
                     <div class="input-group">
